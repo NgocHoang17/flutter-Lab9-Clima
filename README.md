@@ -42,5 +42,4 @@ flutter build web --dart-define-from-file=config.local.json
 
 Android đã khai báo quyền Internet và vị trí. iOS có mô tả quyền vị trí khi sử dụng và Podfile. Trên web, dùng localhost hoặc HTTPS và cho phép Location trong trình duyệt. Khi không cấp quyền vị trí, vẫn có thể tìm theo tên thành phố.
 
-15 unit/widget test kiểm tra các trường hợp thành công và lỗi bằng HTTP/location được kiểm soát. Lần kiểm tra API trực tiếp gần nhất nhận HTTP 401; chưa xác nhận lấy thời tiết thành công với key cục bộ hoặc GPS trên thiết bị thật.
 
