@@ -1,28 +1,46 @@
 # Clima
 
-Th?i ti?t OpenWeatherMap theo v? tr? ho?c th?nh ph?.
+Ứng dụng thời tiết sử dụng OpenWeatherMap, http và geolocator.
 
-D? ?n Flutter ??c l?p, d?ng Flutter 3.38.6 / Dart 3.10.7.
+Dự án Flutter độc lập, dùng Flutter 3.38.6 / Dart 3.10.7.
+
+## Chức năng
+
+- Tìm thời tiết theo thành phố hoặc tọa độ thiết bị khi được cấp quyền.
+- Hiển thị nhiệt độ, mô tả, biểu tượng, độ ẩm và tốc độ gió.
+- Xử lý loading, lỗi mạng, quyền vị trí, thành phố không tồn tại và lỗi API.
+- Tách riêng logic vị trí, networking và weather model.
+
+## Chạy và kiểm tra
 
 ```powershell
 flutter pub get
 flutter analyze
 flutter test
-flutter run -d chrome
+flutter run -d chrome --dart-define-from-file=config.local.json
 ```
 
-T?i nguy?n c?n thi?t ?? c? s?n trong d? ?n. ?? ki?m tra b?ng Flutter 3.38.6 / Dart 3.10.7: analyze, unit/widget test v? build web.
+Tạo file cấu hình theo hướng dẫn bên dưới trước khi chạy.
 
-Clima c?n truy?n `--dart-define-from-file=config.local.json` khi ch?y/build ?? g?i API.
+## Cấu hình API key
 
-## C?u h?nh OpenWeatherMap
-
-Sao ch?p `config.example.json` th?nh `config.local.json`, ?i?n key c?a b?n v?o `OPENWEATHER_API_KEY` r?i ch?y:
+1. Sao chép `config.example.json` thành `config.local.json`.
+2. Điền key của bạn vào giá trị `OPENWEATHER_API_KEY`.
+3. Chạy ứng dụng bằng lệnh:
 
 ```powershell
 flutter run -d chrome --dart-define-from-file=config.local.json
 ```
 
-File c?u h?nh c? nh?n ?? ???c gitignore; kh?ng commit key th?t. Khi ??i key c?n d?ng v? ch?y l?i. L?n ki?m tra tr?c ti?p g?n nh?t, key c?c b? b? API tr? HTTP 401; ch?a x?c nh?n d? li?u th?i ti?t th?nh c?ng ho?c GPS thi?t b? th?t. C?c test HTTP/location d?ng d? li?u ki?m so?t trong th? m?c test.
+Khi build web, truyền cùng file cấu hình:
 
-Android ?? c?u h?nh quy?n Internet/v? tr?; iOS c? m? t? quy?n khi s? d?ng v? Podfile. Web c?n localhost/HTTPS v? quy?n Location c?a tr?nh duy?t. Kh?ng c?p quy?n v? tr? v?n c? th? t?m theo t?n th?nh ph?.
+```powershell
+flutter build web --dart-define-from-file=config.local.json
+```
+
+`config.local.json` đã được gitignore. Không commit key thật. Sau khi đổi key, hãy dừng và chạy lại ứng dụng.
+
+Android đã khai báo quyền Internet và vị trí. iOS có mô tả quyền vị trí khi sử dụng và Podfile. Trên web, dùng localhost hoặc HTTPS và cho phép Location trong trình duyệt. Khi không cấp quyền vị trí, vẫn có thể tìm theo tên thành phố.
+
+15 unit/widget test kiểm tra các trường hợp thành công và lỗi bằng HTTP/location được kiểm soát. Lần kiểm tra API trực tiếp gần nhất nhận HTTP 401; chưa xác nhận lấy thời tiết thành công với key cục bộ hoặc GPS trên thiết bị thật.
+
